@@ -264,8 +264,27 @@ do -- button scripts
   end
 
   -- Left Arrow Button
+  StaticPopupDialogs["QA_MENU_INPUT"] = {
+    text = "Dummy text",
+    button1 = TEXT(ACCEPT),
+    button2 = TEXT(CANCEL),
+    hasEditBox = 1,
+    showAlert = 1,
+    OnShow = function()
+      getglobal(this:GetName().."EditBox"):SetText("")
+    end,
+    OnAccept = function()
+      local text = getglobal(this:GetParent():GetName().."EditBox"):GetText()
+      local dropdown_id = UIDropDownMenu_GetSelectedID(window["dropdown"])
+
+      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: ID " .. dropdown_id .. " TEXT " .. text)
+    end,
+    timeout = 0,
+    whileDead = 1,
+    hideOnEscape = 1,
+  }
+
   window["leftarrow"]:SetScript("OnClick", function()
-    local dropdown_id = UIDropDownMenu_GetSelectedID(window["dropdown"])
-    DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Left-Arrow, DropDownID ".. dropdown_id)
+    StaticPopup_Show("QA_MENU_INPUT")
   end)
 end
