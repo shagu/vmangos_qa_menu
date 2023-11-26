@@ -151,55 +151,56 @@ end
 do -- button scripts
   -- normal buttons
   window["Recharge"]:SetScript("OnClick", function()
-    DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Recharge")
+    SendChatMessage(".replenish", "GUILD", nil, nil)
   end)
 
   window["Decharge"]:SetScript("OnClick", function()
-    DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Decharge")
+    SendChatMessage(".deplenish", "GUILD", nil, nil)
   end)
 
   window["Money (1kG)"]:SetScript("OnClick", function()
-    DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Money (1kG)")
+    SendChatMessage(".mod money 10000000", "GUILD", nil, nil)
   end)
 
   window["MaxAllSkills"]:SetScript("OnClick", function()
-    DEFAULT_CHAT_FRAME:AddMessage("DUMMY: MaxAllSkills")
+    SendChatMessage(".maxskill", "GUILD", nil, nil)
   end)
 
   window["BuyTrainerSkills"]:SetScript("OnClick", function()
-    DEFAULT_CHAT_FRAME:AddMessage("DUMMY: BuyTrainerSkills")
+    SendChatMessage(".learn all_trainer", "GUILD", nil, nil)
   end)
 
   -- check buttons
   window["God Mode"]:SetScript("OnClick", function()
     if this:GetChecked() then
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Checked")
+      SendChatMessage(".cheat god on", "GUILD", nil, nil)
     else
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Unchecked")
+      SendChatMessage(".cheat god off", "GUILD", nil, nil)
     end
   end)
 
   window["Beastmaster"]:SetScript("OnClick", function()
     if this:GetChecked() then
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Checked")
+      SendChatMessage(".gm on", "GUILD", nil, nil)
     else
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Unchecked")
+      SendChatMessage(".gm off", "GUILD", nil, nil)
     end
   end)
 
   window["Cooldown"]:SetScript("OnClick", function()
     if this:GetChecked() then
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Checked")
+      SendChatMessage(".cooldown clear", "GUILD", nil, nil)
+      SendChatMessage(".cheat cooldown on", "GUILD", nil, nil)
     else
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Unchecked")
+      SendChatMessage(".cheat cooldown off", "GUILD", nil, nil)
     end
   end)
 
   window["Flight Mode"]:SetScript("OnClick", function()
     if this:GetChecked() then
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Checked")
+      SendChatMessage(".gm fly on", "GUILD", nil, nil)
     else
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Unchecked")
+      SendChatMessage(".gm fly off", "GUILD", nil, nil)
     end
   end)
 
@@ -234,7 +235,6 @@ do -- button scripts
       text = "Items", checked = false,
       func = function()
         UIDropDownMenu_SetSelectedID(window["dropdown"], this:GetID(), 0)
-        DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Items")
       end
     })
 
@@ -242,7 +242,6 @@ do -- button scripts
       text = "Units", checked = false,
       func = function()
         UIDropDownMenu_SetSelectedID(window["dropdown"], this:GetID(), 0)
-        DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Items")
       end
     })
 
@@ -250,7 +249,6 @@ do -- button scripts
       text = "Objects", checked = false,
       func = function()
         UIDropDownMenu_SetSelectedID(window["dropdown"], this:GetID(), 0)
-        DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Items")
       end
     })
 
@@ -258,14 +256,13 @@ do -- button scripts
       text = "Spells", checked = false,
       func = function()
         UIDropDownMenu_SetSelectedID(window["dropdown"], this:GetID(), 0)
-        DEFAULT_CHAT_FRAME:AddMessage("DUMMY: Items")
       end
     })
   end
 
   -- Left Arrow Button
   StaticPopupDialogs["QA_MENU_INPUT"] = {
-    text = "Dummy text",
+    text = "Enter name to search",
     button1 = TEXT(ACCEPT),
     button2 = TEXT(CANCEL),
     hasEditBox = 1,
@@ -277,7 +274,18 @@ do -- button scripts
       local text = getglobal(this:GetParent():GetName().."EditBox"):GetText()
       local dropdown_id = UIDropDownMenu_GetSelectedID(window["dropdown"])
 
-      DEFAULT_CHAT_FRAME:AddMessage("DUMMY: ID " .. dropdown_id .. " TEXT " .. text)
+      if (dropdown_id == 1) then
+        SendChatMessage(".lookup item " .. text, "GUILD", nil, nil)
+      end
+      if (dropdown_id == 2) then
+        SendChatMessage(".lookup creature " .. text, "GUILD", nil, nil)
+      end
+      if (dropdown_id == 3) then
+        SendChatMessage(".lookup object " .. text, "GUILD", nil, nil)
+      end
+      if (dropdown_id == 4) then
+        SendChatMessage(".lookup spell " .. text, "GUILD", nil, nil)
+      end
     end,
     timeout = 0,
     whileDead = 1,
